@@ -1450,7 +1450,7 @@ class SQLTests(ReusedPySparkTestCase):
         self.assertEqual(1, plan1.toString().count("BroadcastHashJoin"))
 
         # no join key -- should not be a broadcast join
-        plan2 = df1.join(broadcast(df2))._jdf.queryExecution().executedPlan()
+        plan2 = df1.join(broadcast(df2), None, "cross")._jdf.queryExecution().executedPlan()
         self.assertEqual(0, plan2.toString().count("BroadcastHashJoin"))
 
         # planner should not crash without a join
